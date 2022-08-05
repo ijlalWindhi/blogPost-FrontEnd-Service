@@ -1,4 +1,4 @@
-# blogPost-FrontEnd-Service
+# Blog App with React
 
 To get started:
 
