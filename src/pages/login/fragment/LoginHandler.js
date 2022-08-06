@@ -16,7 +16,7 @@ export default async function LoginHandler(values) {
             if (res.data.logged === true) {
                 // check role
                 if (res.data.data.role === "admin") {
-                    window.location.href = "/admin";
+                    window.location.href = "/";
                 } else if (res.data.data.role === "user") {
                     window.location.href = "/";
                 }
