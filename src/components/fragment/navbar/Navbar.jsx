@@ -16,22 +16,24 @@ import {
     Stack,
 } from "@chakra-ui/react";
 import { AlignCenter, X } from "react-feather";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-scroll";
+import { motion } from "framer-motion";
 import LogoutHandler from "./fragment/LogoutHandler";
 
 const getJson = localStorage.getItem("item");
 const dataNavbar = [
     {
         label: "Home",
-        link: "/",
+        link: "home-section",
     },
     {
         label: "About",
-        link: "/",
+        link: "about-section",
     },
     {
         label: "Tutorial",
-        link: "/",
+        link: "tutorial-section",
     },
 ];
 
@@ -124,7 +126,12 @@ export default function Navbar() {
                 >
                     {dataNavbar.map((item, index) => {
                         return (
-                            <Link to={item.link} key={index}>
+                            <Link
+                                to={item.link}
+                                key={index}
+                                smooth={true}
+                                cursor="pointer"
+                            >
                                 <Text
                                     px={2}
                                     py={1}
@@ -133,6 +140,13 @@ export default function Navbar() {
                                     _hover={{
                                         textDecoration: "none",
                                         textColor: "primary.100",
+                                    }}
+                                    as={motion.h3}
+                                    whileHover={{
+                                        scale: 1.1,
+                                        transition: {
+                                            duration: 0.5,
+                                        },
                                     }}
                                 >
                                     {item.label}
@@ -150,7 +164,12 @@ export default function Navbar() {
                     <Stack as={"nav"} spacing={4}>
                         {dataNavbar.map((item, index) => {
                             return (
-                                <Link to={item.link} key={index}>
+                                <Link
+                                    to={item.link}
+                                    key={index}
+                                    smooth={true}
+                                    cursor={"pointer"}
+                                >
                                     <Text
                                         px={2}
                                         py={1}

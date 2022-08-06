@@ -2,7 +2,7 @@ import React from "react";
 import LoginForm from "./fragment/LoginForm";
 import { Center, Container, Grid, GridItem } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import ImageLogin from "../../assets/image/image-login.png";
+import ImageLogin from "../../assets/image/image-register.png";
 
 export default function Login() {
     return (

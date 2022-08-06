@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, AlertIcon, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
 export default function AlertNotification(status, message) {
     if (status === "success") {
@@ -18,4 +18,3 @@ export default function AlertNotification(status, message) {
         );
     }
 }
-// export default AlertNotification;
