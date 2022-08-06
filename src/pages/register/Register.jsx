@@ -1,7 +1,8 @@
 import React from "react";
 import RegisterForm from "./fragment/RegisterForm";
 import { Center, Container, Grid, GridItem } from "@chakra-ui/react";
-// import ImageLogin from "../../assets/image/image-login.svg";
+import { motion } from "framer-motion";
+import ImageRegister from "../../assets/image/image-register.png";
 
 export default function Login() {
     return (
@@ -18,7 +19,19 @@ export default function Login() {
                         <RegisterForm />
                     </GridItem>
                     <GridItem margin={{ base: "5", lg: "auto 0" }}>
-                        <Center>{/* <img src={ImageLogin} alt="" /> */}</Center>
+                        <Center>
+                            <motion.img
+                                src={ImageRegister}
+                                alt="Image Register"
+                                animate={{ y: [-20, 20, -20] }}
+                                transition={{
+                                    duration: 3,
+                                    ease: "easeInOut",
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                }}
+                            />
+                        </Center>
                     </GridItem>
                 </Grid>
             </Center>

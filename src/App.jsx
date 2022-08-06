@@ -1,4 +1,5 @@
 import Routes from "./components/routes/Routing";
+import "./App.css";
 
 function App() {
     return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "react-feather";
 import {
@@ -14,13 +14,13 @@ import {
     InputRightElement,
     IconButton,
     FormHelperText,
+    Flex,
 } from "@chakra-ui/react";
 import loginHandler from "./LoginHandler";
-import AlertNotification from "../../../components/fragment/Alert";
 
 export default function LoginForm() {
-    const [message, setMessage] = useState("");
-    const [status, setStatus] = useState("");
+    // const [message, setMessage] = useState("");
+    // const [status, setStatus] = useState("");
     const {
         register,
         formState: { errors },
@@ -33,19 +33,24 @@ export default function LoginForm() {
     const submitHandler = async (values) => {
         setIsLoading(!isLoading);
         const response = await loginHandler(values);
-        setMessage(response.message);
-        setStatus(response.status);
+        // setMessage(response.message);
+        // setStatus(response.status);
 
         // location.reload();
     };
 
     return (
         <Box>
-            <AlertNotification status={status} message={message} />
+            {/* <AlertNotification status={status} message={message} /> */}
             <Box>
-                <Heading fontWeight={800}>Login</Heading>
-                <Text fontSize="md" my={2}>
-                    Login to submit a report
+                <Text mb={4} color="primary.100">
+                    <Link to="/">{"<-- Back to Home Page"}</Link>
+                </Text>
+                <Heading fontWeight={800} color="primary.100">
+                    Login
+                </Heading>
+                <Text fontSize="md" my={3}>
+                    Login to start reading stories from all over the world
                 </Text>
             </Box>
             <Box>
@@ -86,15 +91,21 @@ export default function LoginForm() {
                             Please fill your password
                         </FormHelperText>
                     )}
-                    <Text mt={4}>
-                        Dont have an account?
-                        <Link to="/register"> Register</Link>
-                    </Text>
+                    <Flex>
+                        <Text>Dont have an account?</Text>
+                        <Text ml={1} color="primary.100">
+                            <Link to="/register"> Register</Link>
+                        </Text>
+                    </Flex>
                     <Button
                         mt={4}
-                        colorScheme="teal"
+                        bg="primary.100"
+                        color="white"
                         isLoading={isLoading}
                         type="submit"
+                        borderWidth={2}
+                        borderColor="primary.100"
+                        _hover={{ bg: "white", color: "primary.100" }}
                         onClick={handleSubmit(async (values) => {
                             await submitHandler(values);
                         })}

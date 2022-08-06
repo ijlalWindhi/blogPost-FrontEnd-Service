@@ -17,6 +17,7 @@ import {
     InputRightElement,
     IconButton,
     FormHelperText,
+    Flex,
 } from "@chakra-ui/react";
 
 export default function RegisterForm() {
@@ -37,8 +38,10 @@ export default function RegisterForm() {
     return (
         <Box>
             <Box>
-                <Heading fontWeight={800}>Register</Heading>
-                <Text fontSize="md" my={2}>
+                <Heading fontWeight={800} color="primary.100">
+                    Register
+                </Heading>
+                <Text fontSize="md" my={3}>
                     Register to create account
                 </Text>
             </Box>
@@ -124,14 +127,21 @@ export default function RegisterForm() {
                         value="user"
                         {...register("role")}
                     />
-                    <Text mt={4}>
-                        Have an account?<Link to="/login"> Login</Link>
-                    </Text>
+                    <Flex>
+                        <Text>Have an account?</Text>
+                        <Text ml={1} color="primary.100">
+                            <Link to="/login"> Login</Link>
+                        </Text>
+                    </Flex>
                     <Button
                         mt={4}
-                        colorScheme="teal"
+                        bg="primary.100"
+                        color="white"
                         isLoading={isLoading}
                         type="submit"
+                        borderWidth={2}
+                        borderColor="primary.100"
+                        _hover={{ bg: "white", color: "primary.100" }}
                         onClick={handleSubmit(async (values) => {
                             await submitHandler(values);
                         })}
