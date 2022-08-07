@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import RegisterHandler from "./RegisterHandler";
 import { Eye, EyeOff } from "react-feather";
 import {
     Button,
@@ -19,25 +18,42 @@ import {
     FormHelperText,
     Flex,
 } from "@chakra-ui/react";
+import RegisterHandler from "./RegisterHandler";
+import AlertNotification from "../../../components/fragment/Alert";
 
 export default function RegisterForm() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [show, setShow] = React.useState(false);
+    const handleClick = () => setShow(!show);
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState("");
+    const navigate = useNavigate();
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm();
-    const [isLoading, setIsLoading] = useState(false);
-    const [show, setShow] = React.useState(false);
-    const handleClick = () => setShow(!show);
 
     const submitHandler = async (values) => {
         setIsLoading(!isLoading);
-        await RegisterHandler(values);
+        const res = await RegisterHandler(values);
+        console.log(res);
+        setMessage(res.message);
+        setStatus(res.status);
+
+        setTimeout(() => {
+            if (res.status === "success") {
+                navigate("/login");
+            }
+
+            location.reload();
+        }, 1500);
     };
 
     return (
         <Box>
-            <Box>
+            <AlertNotification status={status} message={message} />
+            <Box mt={4}>
                 <Heading fontWeight={800} color="primary.100">
                     Register
                 </Heading>
@@ -99,6 +115,7 @@ export default function RegisterForm() {
                                     id="password"
                                     {...register("password", {
                                         required: true,
+                                        minLength: 8,
                                     })}
                                 />
                                 <InputRightElement>
@@ -115,6 +132,11 @@ export default function RegisterForm() {
                             {errors.password?.type === "required" && (
                                 <FormHelperText textColor="red">
                                     Please fill your password
+                                </FormHelperText>
+                            )}
+                            {errors.password?.type === "minLength" && (
+                                <FormHelperText textColor="red">
+                                    Password must be at least 8 characters
                                 </FormHelperText>
                             )}
                         </GridItem>

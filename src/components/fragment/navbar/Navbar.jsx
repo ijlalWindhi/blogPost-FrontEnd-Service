@@ -2,16 +2,11 @@ import React from "react";
 import {
     Box,
     Flex,
-    Avatar,
     HStack,
     IconButton,
     Button,
-    Menu,
-    MenuButton,
     useDisclosure,
     useColorModeValue,
-    MenuList,
-    MenuItem,
     Text,
     Stack,
 } from "@chakra-ui/react";
@@ -19,9 +14,7 @@ import { AlignCenter, X } from "react-feather";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
 import { motion } from "framer-motion";
-import LogoutHandler from "./fragment/LogoutHandler";
 
-const getJson = localStorage.getItem("item");
 const dataNavbar = [
     {
         label: "Home",
@@ -36,58 +29,6 @@ const dataNavbar = [
         link: "tutorial-section",
     },
 ];
-
-const NavbarLoginMenu = () => {
-    if (getJson === null) {
-        return (
-            <NavLink to="/login">
-                <Button
-                    fontWeight="bold"
-                    bg="primary.100"
-                    color="white"
-                    px={[6, 7, 9]}
-                    py={[3, 2, 5]}
-                    borderRadius={"2xl"}
-                    borderColor="primary.100"
-                    borderWidth={3}
-                    _hover={{ bg: "white", color: "primary.100" }}
-                >
-                    Login
-                </Button>
-            </NavLink>
-        );
-    } else {
-        return (
-            <Menu>
-                <MenuButton
-                    as={Button}
-                    rounded={"full"}
-                    variant={"link"}
-                    cursor={"pointer"}
-                    minW={0}
-                >
-                    <Avatar
-                        size={"md"}
-                        src={
-                            "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                        }
-                    />
-                </MenuButton>
-                <MenuList fontWeight={"semibold"} zIndex={10}>
-                    {/* <MenuItem>Profile</MenuItem> */}
-                    <MenuItem
-                        bg={"red.400"}
-                        textColor={"white"}
-                        onClick={LogoutHandler}
-                        _hover={{ bg: "red.400" }}
-                    >
-                        Logout
-                    </MenuItem>
-                </MenuList>
-            </Menu>
-        );
-    }
-};
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -156,7 +97,21 @@ export default function Navbar() {
                     })}
                 </HStack>
                 <Flex alignItems={"center"}>
-                    <NavbarLoginMenu />
+                    <NavLink to="/login">
+                        <Button
+                            fontWeight="bold"
+                            bg="primary.100"
+                            color="white"
+                            px={[6, 7, 9]}
+                            py={[3, 2, 5]}
+                            borderRadius={"2xl"}
+                            borderColor="primary.100"
+                            borderWidth={3}
+                            _hover={{ bg: "white", color: "primary.100" }}
+                        >
+                            Login
+                        </Button>
+                    </NavLink>
                 </Flex>
             </Flex>
             {isOpen ? (

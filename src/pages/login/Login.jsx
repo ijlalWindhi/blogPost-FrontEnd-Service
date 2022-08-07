@@ -1,10 +1,21 @@
-import React from "react";
-import LoginForm from "./fragment/LoginForm";
+import React, { useEffect } from "react";
 import { Center, Container, Grid, GridItem } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import LoginForm from "./fragment/LoginForm";
 import ImageLogin from "../../assets/image/image-register.png";
+import { checkLogged } from "../../utils/constants";
 
 export default function Login() {
+    const navigate = useNavigate();
+    // check if user is logged in
+    useEffect(() => {
+        const isLoggedIn = checkLogged();
+        if (isLoggedIn) {
+            navigate("/home");
+        }
+    }, [navigate]);
+
     return (
         <Container maxW="80%" gridTemplateRows="repeat(2, 1fr)" py={14} p={0}>
             <Center>

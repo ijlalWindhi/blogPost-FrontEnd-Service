@@ -1,19 +1,27 @@
 import React from "react";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 
-export default function AlertNotification(status, message) {
-    if (status === "success") {
+export default function AlertNotification(props) {
+    if (props.status === "success") {
         return (
-            <Alert status={status}>
+            <Alert
+                status={props.status}
+                variant="left-accent"
+                borderRadius={"md"}
+            >
                 <AlertIcon />
-                {message}
+                {props.message}
             </Alert>
         );
-    } else if (status === "error") {
+    } else if (props.status === "error") {
         return (
-            <Alert status={status}>
+            <Alert
+                status={props.status}
+                variant="left-accent"
+                borderRadius={"md"}
+            >
                 <AlertIcon />
-                {message}
+                {props.message}
             </Alert>
         );
     }

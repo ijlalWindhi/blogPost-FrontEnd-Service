@@ -4,21 +4,16 @@ import { BASE_API } from "../../../utils/constants";
 export default async function RegisterHandler(values) {
     const REGISTER_URL = BASE_API + "user/register";
     try {
-        await axios.post(REGISTER_URL, values).then((res) => {
-            // reload page
-            window.location.reload();
-            // check falid username and password
-            if (res.data.status === "success") {
-                alert("Register Success");
-                // navigate page to login
-                window.location = "/login";
-            }
+        const res = await axios.post(REGISTER_URL, values);
+        console.log(res);
+        return Promise.resolve({
+            status: res.data.status,
+            message: res.data.message,
         });
     } catch (err) {
-        if (err.response.data.message === "username already exist") {
-            alert(err.response.data.message);
-        } else if (err.response.data.message === "email already exist") {
-            alert(err.response.data.message);
-        }
+        return Promise.resolve({
+            status: "error",
+            message: err.response.data.message,
+        });
     }
 }
