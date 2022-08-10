@@ -4,24 +4,29 @@ import {
     Flex,
     HStack,
     IconButton,
+    Button,
     useDisclosure,
     useColorModeValue,
     Text,
     Stack,
 } from "@chakra-ui/react";
 import { AlignCenter, X } from "react-feather";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-scroll";
 import { motion } from "framer-motion";
-import RightSection from "./fragment/RightSection";
 
 const dataNavbar = [
     {
         label: "Home",
-        link: "/home",
+        link: "home-section",
     },
     {
-        label: "Write",
-        link: "/home/write",
+        label: "About",
+        link: "about-section",
+    },
+    {
+        label: "Tutorial",
+        link: "tutorial-section",
     },
 ];
 
@@ -91,7 +96,23 @@ export default function Navbar() {
                         );
                     })}
                 </HStack>
-                <RightSection />
+                <Flex alignItems={"center"}>
+                    <NavLink to="/login">
+                        <Button
+                            fontWeight="bold"
+                            bg="primary.100"
+                            color="white"
+                            px={[6, 7, 9]}
+                            py={[3, 2, 5]}
+                            borderRadius={"2xl"}
+                            borderColor="primary.100"
+                            borderWidth={3}
+                            _hover={{ bg: "white", color: "primary.100" }}
+                        >
+                            Login
+                        </Button>
+                    </NavLink>
+                </Flex>
             </Flex>
             {isOpen ? (
                 <Box pb={4} display={{ md: "none" }}>

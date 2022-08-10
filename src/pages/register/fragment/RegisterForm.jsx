@@ -66,7 +66,7 @@ export default function RegisterForm() {
                     <Grid
                         gap={{ base: "5", lg: "10" }}
                         templateColumns={{ lg: "repeat(2, 1fr)" }}
-                        justifyContent="center"
+                        // justifyContent="center"
                     >
                         <GridItem>
                             <FormLabel>Name</FormLabel>

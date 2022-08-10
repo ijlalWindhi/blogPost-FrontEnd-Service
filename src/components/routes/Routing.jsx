@@ -4,6 +4,8 @@ import HomePage from "../../pages/landing page/LandingPage";
 import Login from "../../pages/login/Login";
 import Register from "../../pages/register/Register";
 import Home from "../../pages/home/Home";
+import Profile from "../../pages/profile/Profile";
+import Write from "../../pages/write/Write";
 
 export default function Routing() {
     return (
@@ -12,6 +14,8 @@ export default function Routing() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/home/profile/:id" element={<Profile />} />
+            <Route path="/home/write" element={<Write />} />
         </Routes>
     );
 }
