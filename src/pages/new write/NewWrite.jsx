@@ -1,13 +1,13 @@
 import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Navbar from "../../components/fragment/navbar/Navbar";
-import CardSection from "./section/CardSection";
+import WriteForm from "./fragment/WriteForm";
 
-export default function Home() {
+export default function NewWrite() {
     return (
         <Box>
             <Navbar />
-            <CardSection />
+            <WriteForm />
         </Box>
     );
 }

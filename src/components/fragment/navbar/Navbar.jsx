@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Box,
     Flex,
@@ -8,25 +8,43 @@ import {
     useColorModeValue,
     Text,
     Stack,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    Icon,
+    Collapse,
 } from "@chakra-ui/react";
-import { AlignCenter, X } from "react-feather";
+import { AlignCenter, X, ChevronUp } from "react-feather";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import RightSection from "./fragment/RightSection";
 
-const dataNavbar = [
-    {
-        label: "Home",
-        link: "/home",
-    },
-    {
-        label: "Write",
-        link: "/home/write",
-    },
-];
-
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const value = JSON.parse(localStorage.getItem("item"));
+    const id = value.id;
+
+    const dataNavbar = [
+        {
+            label: "Home",
+            link: "/home",
+        },
+        {
+            label: "Write",
+            link: "/home/",
+            children: [
+                {
+                    label: "New Post",
+                    href: "/home/write/new-write",
+                },
+                {
+                    label: "Existing Post",
+                    href: `/home/write/existing-write/${id}`,
+                },
+            ],
+        },
+    ];
 
     return (
         <Box
@@ -62,32 +80,74 @@ export default function Navbar() {
                 >
                     {dataNavbar.map((item, index) => {
                         return (
-                            <Link
-                                to={item.link}
+                            <Popover
+                                trigger={"hover"}
+                                placement={"bottom-start"}
                                 key={index}
-                                smooth={true}
-                                cursor="pointer"
                             >
-                                <Text
-                                    px={2}
-                                    py={1}
-                                    rounded={"md"}
-                                    _activeLink={{ textColor: "blue.500" }}
-                                    _hover={{
-                                        textDecoration: "none",
-                                        textColor: "primary.100",
-                                    }}
-                                    as={motion.h3}
-                                    whileHover={{
-                                        scale: 1.1,
-                                        transition: {
-                                            duration: 0.5,
-                                        },
-                                    }}
-                                >
-                                    {item.label}
-                                </Text>
-                            </Link>
+                                <PopoverTrigger>
+                                    <Link to={item.link} cursor="pointer">
+                                        <Text
+                                            px={2}
+                                            py={1}
+                                            rounded={"md"}
+                                            _activeLink={{
+                                                textColor: "blue.500",
+                                            }}
+                                            _hover={{
+                                                textDecoration: "none",
+                                                textColor: "primary.100",
+                                            }}
+                                            as={motion.h3}
+                                            whileHover={{
+                                                scale: 1.1,
+                                                transition: {
+                                                    duration: 0.5,
+                                                },
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Text>
+                                    </Link>
+                                </PopoverTrigger>
+
+                                {item.children && (
+                                    <PopoverContent
+                                        zIndex={10}
+                                        bg={"white"}
+                                        boxShadow={
+                                            "1px 5px 24px -12px rgba(0, 0, 0, 0.3);"
+                                        }
+                                        borderRadius={"md"}
+                                        p={2}
+                                        maxWidth={"md"}
+                                        overflow={"auto"}
+                                    >
+                                        {item.children.map((item, index) => {
+                                            return (
+                                                <Link
+                                                    to={item.href}
+                                                    key={index}
+                                                >
+                                                    <Text
+                                                        px={2}
+                                                        py={1}
+                                                        rounded={"md"}
+                                                        _hover={{
+                                                            textDecoration:
+                                                                "none",
+                                                            textColor:
+                                                                "primary.100",
+                                                        }}
+                                                    >
+                                                        {item.label}
+                                                    </Text>
+                                                </Link>
+                                            );
+                                        })}
+                                    </PopoverContent>
+                                )}
+                            </Popover>
                         );
                     })}
                 </HStack>
@@ -104,18 +164,82 @@ export default function Navbar() {
                                     smooth={true}
                                     cursor={"pointer"}
                                 >
-                                    <Text
-                                        px={2}
-                                        py={1}
-                                        rounded={"md"}
-                                        _activeLink={{ textColor: "blue.500" }}
-                                        _hover={{
-                                            textDecoration: "none",
-                                            textColor: "primary.100",
-                                        }}
+                                    <Flex alignItems={"center"}>
+                                        <Text
+                                            px={2}
+                                            py={1}
+                                            rounded={"md"}
+                                            _activeLink={{
+                                                textColor: "blue.500",
+                                            }}
+                                            _hover={{
+                                                textDecoration: "none",
+                                                textColor: "primary.100",
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Text>
+                                        {item.children && (
+                                            <Icon
+                                                as={ChevronUp}
+                                                transition={
+                                                    "all .25s ease-in-out"
+                                                }
+                                                transform={
+                                                    isOpen
+                                                        ? "rotate(180deg)"
+                                                        : ""
+                                                }
+                                                w={6}
+                                                h={6}
+                                            />
+                                        )}
+                                    </Flex>
+                                    <Collapse
+                                        in={isOpen}
+                                        animateOpacity
+                                        style={{ marginTop: "0!important" }}
                                     >
-                                        {item.label}
-                                    </Text>
+                                        <Stack
+                                            mt={2}
+                                            pl={4}
+                                            borderLeft={1}
+                                            borderStyle={"solid"}
+                                            borderColor={useColorModeValue(
+                                                "gray.200",
+                                                "gray.700"
+                                            )}
+                                            align={"start"}
+                                        >
+                                            {item.children &&
+                                                item.children.map(
+                                                    (item, index) => {
+                                                        return (
+                                                            <Link
+                                                                to={item.href}
+                                                                key={index}
+                                                            >
+                                                                <Text
+                                                                    px={2}
+                                                                    py={1}
+                                                                    rounded={
+                                                                        "md"
+                                                                    }
+                                                                    _hover={{
+                                                                        textDecoration:
+                                                                            "none",
+                                                                        textColor:
+                                                                            "primary.100",
+                                                                    }}
+                                                                >
+                                                                    {item.label}
+                                                                </Text>
+                                                            </Link>
+                                                        );
+                                                    }
+                                                )}
+                                        </Stack>
+                                    </Collapse>
                                 </Link>
                             );
                         })}

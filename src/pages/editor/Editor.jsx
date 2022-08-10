@@ -1,13 +1,13 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import Navbar from "../../components/fragment/navbar/Navbar";
-import RichTextEditor from "./fragment/RichTextEditor";
+import EditorSection from "./section/EditorSection";
 
-export default function Write() {
+export default function Editor() {
     return (
-        <Box>
+        <Box h={"100vh"}>
             <Navbar />
-            <RichTextEditor />
+            <EditorSection />
         </Box>
     );
 }

@@ -8,6 +8,7 @@ export default function AlertNotification(props) {
                 status={props.status}
                 variant="left-accent"
                 borderRadius={"md"}
+                textTransform={"capitalize"}
             >
                 <AlertIcon />
                 {props.message}
@@ -19,6 +20,7 @@ export default function AlertNotification(props) {
                 status={props.status}
                 variant="left-accent"
                 borderRadius={"md"}
+                textTransform={"capitalize"}
             >
                 <AlertIcon />
                 {props.message}

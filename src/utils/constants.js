@@ -18,6 +18,10 @@ const getLocalStorage = () => {
     return localStorage.getItem("item");
 };
 
+const setLocalStorage = () => {
+    JSON.parse(localStorage.getItem("item"));
+};
+
 export {
     BASE_API,
     URL_Image,
@@ -25,4 +29,5 @@ export {
     checkLogged,
     clearLocalStorage,
     getLocalStorage,
+    setLocalStorage,
 };
