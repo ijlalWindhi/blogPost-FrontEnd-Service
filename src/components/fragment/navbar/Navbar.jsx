@@ -1,96 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Box,
     Flex,
-    Avatar,
     HStack,
     IconButton,
-    Button,
-    Menu,
-    MenuButton,
     useDisclosure,
     useColorModeValue,
-    MenuList,
-    MenuItem,
     Text,
     Stack,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    Icon,
+    Collapse,
 } from "@chakra-ui/react";
-import { AlignCenter, X } from "react-feather";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-scroll";
+import { AlignCenter, X, ChevronUp } from "react-feather";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import LogoutHandler from "./fragment/LogoutHandler";
-
-const getJson = localStorage.getItem("item");
-const dataNavbar = [
-    {
-        label: "Home",
-        link: "home-section",
-    },
-    {
-        label: "About",
-        link: "about-section",
-    },
-    {
-        label: "Tutorial",
-        link: "tutorial-section",
-    },
-];
-
-const NavbarLoginMenu = () => {
-    if (getJson === null) {
-        return (
-            <NavLink to="/login">
-                <Button
-                    fontWeight="bold"
-                    bg="primary.100"
-                    color="white"
-                    px={[6, 7, 9]}
-                    py={[3, 2, 5]}
-                    borderRadius={"2xl"}
-                    borderColor="primary.100"
-                    borderWidth={3}
-                    _hover={{ bg: "white", color: "primary.100" }}
-                >
-                    Login
-                </Button>
-            </NavLink>
-        );
-    } else {
-        return (
-            <Menu>
-                <MenuButton
-                    as={Button}
-                    rounded={"full"}
-                    variant={"link"}
-                    cursor={"pointer"}
-                    minW={0}
-                >
-                    <Avatar
-                        size={"md"}
-                        src={
-                            "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                        }
-                    />
-                </MenuButton>
-                <MenuList fontWeight={"semibold"} zIndex={10}>
-                    {/* <MenuItem>Profile</MenuItem> */}
-                    <MenuItem
-                        bg={"red.400"}
-                        textColor={"white"}
-                        onClick={LogoutHandler}
-                        _hover={{ bg: "red.400" }}
-                    >
-                        Logout
-                    </MenuItem>
-                </MenuList>
-            </Menu>
-        );
-    }
-};
+import RightSection from "./fragment/RightSection";
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const value = JSON.parse(localStorage.getItem("item"));
+    const id = value.id;
+
+    const dataNavbar = [
+        {
+            label: "Home",
+            link: "/home",
+        },
+        {
+            label: "Write",
+            link: "/home/",
+            children: [
+                {
+                    label: "New Post",
+                    href: "/home/write/new-write",
+                },
+                {
+                    label: "Existing Post",
+                    href: `/home/write/existing-write/${id}`,
+                },
+            ],
+        },
+    ];
 
     return (
         <Box
@@ -126,38 +80,78 @@ export default function Navbar() {
                 >
                     {dataNavbar.map((item, index) => {
                         return (
-                            <Link
-                                to={item.link}
+                            <Popover
+                                trigger={"hover"}
+                                placement={"bottom-start"}
                                 key={index}
-                                smooth={true}
-                                cursor="pointer"
                             >
-                                <Text
-                                    px={2}
-                                    py={1}
-                                    rounded={"md"}
-                                    _activeLink={{ textColor: "blue.500" }}
-                                    _hover={{
-                                        textDecoration: "none",
-                                        textColor: "primary.100",
-                                    }}
-                                    as={motion.h3}
-                                    whileHover={{
-                                        scale: 1.1,
-                                        transition: {
-                                            duration: 0.5,
-                                        },
-                                    }}
-                                >
-                                    {item.label}
-                                </Text>
-                            </Link>
+                                <PopoverTrigger>
+                                    <Link to={item.link} cursor="pointer">
+                                        <Text
+                                            px={2}
+                                            py={1}
+                                            rounded={"md"}
+                                            _activeLink={{
+                                                textColor: "blue.500",
+                                            }}
+                                            _hover={{
+                                                textDecoration: "none",
+                                                textColor: "primary.100",
+                                            }}
+                                            as={motion.h3}
+                                            whileHover={{
+                                                scale: 1.1,
+                                                transition: {
+                                                    duration: 0.5,
+                                                },
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Text>
+                                    </Link>
+                                </PopoverTrigger>
+
+                                {item.children && (
+                                    <PopoverContent
+                                        zIndex={10}
+                                        bg={"white"}
+                                        boxShadow={
+                                            "1px 5px 24px -12px rgba(0, 0, 0, 0.3);"
+                                        }
+                                        borderRadius={"md"}
+                                        p={2}
+                                        maxWidth={"md"}
+                                        overflow={"auto"}
+                                    >
+                                        {item.children.map((item, index) => {
+                                            return (
+                                                <Link
+                                                    to={item.href}
+                                                    key={index}
+                                                >
+                                                    <Text
+                                                        px={2}
+                                                        py={1}
+                                                        rounded={"md"}
+                                                        _hover={{
+                                                            textDecoration:
+                                                                "none",
+                                                            textColor:
+                                                                "primary.100",
+                                                        }}
+                                                    >
+                                                        {item.label}
+                                                    </Text>
+                                                </Link>
+                                            );
+                                        })}
+                                    </PopoverContent>
+                                )}
+                            </Popover>
                         );
                     })}
                 </HStack>
-                <Flex alignItems={"center"}>
-                    <NavbarLoginMenu />
-                </Flex>
+                <RightSection />
             </Flex>
             {isOpen ? (
                 <Box pb={4} display={{ md: "none" }}>
@@ -170,18 +164,82 @@ export default function Navbar() {
                                     smooth={true}
                                     cursor={"pointer"}
                                 >
-                                    <Text
-                                        px={2}
-                                        py={1}
-                                        rounded={"md"}
-                                        _activeLink={{ textColor: "blue.500" }}
-                                        _hover={{
-                                            textDecoration: "none",
-                                            textColor: "primary.100",
-                                        }}
+                                    <Flex alignItems={"center"}>
+                                        <Text
+                                            px={2}
+                                            py={1}
+                                            rounded={"md"}
+                                            _activeLink={{
+                                                textColor: "blue.500",
+                                            }}
+                                            _hover={{
+                                                textDecoration: "none",
+                                                textColor: "primary.100",
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Text>
+                                        {item.children && (
+                                            <Icon
+                                                as={ChevronUp}
+                                                transition={
+                                                    "all .25s ease-in-out"
+                                                }
+                                                transform={
+                                                    isOpen
+                                                        ? "rotate(180deg)"
+                                                        : ""
+                                                }
+                                                w={6}
+                                                h={6}
+                                            />
+                                        )}
+                                    </Flex>
+                                    <Collapse
+                                        in={isOpen}
+                                        animateOpacity
+                                        style={{ marginTop: "0!important" }}
                                     >
-                                        {item.label}
-                                    </Text>
+                                        <Stack
+                                            mt={2}
+                                            pl={4}
+                                            borderLeft={1}
+                                            borderStyle={"solid"}
+                                            borderColor={useColorModeValue(
+                                                "gray.200",
+                                                "gray.700"
+                                            )}
+                                            align={"start"}
+                                        >
+                                            {item.children &&
+                                                item.children.map(
+                                                    (item, index) => {
+                                                        return (
+                                                            <Link
+                                                                to={item.href}
+                                                                key={index}
+                                                            >
+                                                                <Text
+                                                                    px={2}
+                                                                    py={1}
+                                                                    rounded={
+                                                                        "md"
+                                                                    }
+                                                                    _hover={{
+                                                                        textDecoration:
+                                                                            "none",
+                                                                        textColor:
+                                                                            "primary.100",
+                                                                    }}
+                                                                >
+                                                                    {item.label}
+                                                                </Text>
+                                                            </Link>
+                                                        );
+                                                    }
+                                                )}
+                                        </Stack>
+                                    </Collapse>
                                 </Link>
                             );
                         })}

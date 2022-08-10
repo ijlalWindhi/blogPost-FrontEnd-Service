@@ -2,13 +2,10 @@ import { BASE_API } from "../../../utils/constants";
 import axios from "axios";
 
 export default async function LoginHandler(values) {
-    const LOGIN_URL = BASE_API + "user/login";
+    const DETAIL_URL = BASE_API + "post/add/detailPost";
     try {
-        const logindata = await axios.post(LOGIN_URL, values);
-        const res = logindata.data;
-        localStorage.setItem("item", JSON.stringify(res.data));
-        localStorage.setItem("logged", true);
-
+        const detailData = await axios.post(DETAIL_URL, values);
+        const res = detailData.data;
         return Promise.resolve({
             status: res.status,
             message: res.message,
